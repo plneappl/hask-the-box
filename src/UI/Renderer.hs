@@ -14,7 +14,7 @@ import Debug.Trace
 renderWorld :: Point -> World -> IO Picture
 renderWorld screen w = renderRoot screen w $ 
   vbox (0, 0) 15 
-    [ button "Shuffle" ignoreClicks
+    [ button "Shuffle1" ignoreClicks
     , hbox (0, 0) 10 
       [ slottedLed 0
       , slottedLed 1
@@ -27,7 +27,7 @@ renderWorld screen w = renderRoot screen w $
       , slottedLed 2
       , slottedLed 3
       ]
-    , button "Shuffle" ignoreClicks
+    , button "Shuffle2" ignoreClicks
     ]
 
 renderRoot :: Point -> World -> UiElement -> IO Picture

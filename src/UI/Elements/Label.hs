@@ -9,6 +9,7 @@ import UI.Util(scaleUnif)
 
 label :: Float -> String -> UiElement
 label height text = UiElement {
+  name = "label: " ++ text,
   size = (width, height),
   drawSelf = drawText scale text,
   onClick = \_ -> return

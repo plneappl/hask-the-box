@@ -11,6 +11,7 @@ import Util.FourOf
 
 slottedLed :: Int -> UiElement
 slottedLed ledNum = UiElement {
+  name = "LED " ++ (show ledNum),
   size = (ledSize, ledSize),
   drawSelf = drawLed ledNum,
   onClick = removeLed

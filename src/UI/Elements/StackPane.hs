@@ -9,6 +9,7 @@ import UI.Util(render)
 
 stackPane :: [UiElement] -> UiElement
 stackPane children = UiElement {
+  name = "stackPane " ++ (show children),
   size = paneSize,
   drawSelf = drawStackPane paneSize children,
   onClick = onClickStackPane children

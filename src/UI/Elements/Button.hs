@@ -13,5 +13,5 @@ button lbl _onClick = stackPane
   [ labelText
   , rectangle (lblWidth + 10, lblHeight + 10)
   ] where 
-  labelText = label 80 lbl
+  labelText = label 20 lbl
   (lblWidth, lblHeight) = size labelText
