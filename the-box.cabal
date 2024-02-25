@@ -1,0 +1,82 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.36.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           the-box
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/the-box#readme>
+homepage:       https://github.com/githubuser/the-box#readme
+bug-reports:    https://github.com/githubuser/the-box/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2024 Author name here
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/the-box
+
+library
+  exposed-modules:
+      Main.Color
+      Main.ElementState
+      Main.World
+      UI.Elements.Box
+      UI.Elements.Button
+      UI.Elements.Label
+      UI.Elements.LED
+      UI.Elements.Rectangle
+      UI.Elements.StackPane
+      UI.Renderer
+      UI.UiElement
+      UI.UiState
+      UI.Util
+      Util.FourOf
+  other-modules:
+      Paths_the_box
+  autogen-modules:
+      Paths_the_box
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-unused-matches -Wno-unused-top-binds
+  build-depends:
+      base >=4.7 && <5
+    , gloss >=1.13
+  default-language: Haskell2010
+
+executable the-box-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_the_box
+  autogen-modules:
+      Paths_the_box
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-unused-matches -Wno-unused-top-binds -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , gloss >=1.13
+    , the-box
+  default-language: Haskell2010
+
+test-suite the-box-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_the_box
+  autogen-modules:
+      Paths_the_box
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-unused-matches -Wno-unused-top-binds -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , the-box
+  default-language: Haskell2010
