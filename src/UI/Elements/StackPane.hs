@@ -5,14 +5,14 @@ module UI.Elements.StackPane
 import Graphics.Gloss(Picture(..), Point)
 import Main.World
 import UI.UiElement
-import UI.Util(render)
+import UI.Util(render, isHit)
 
 stackPane :: [UiElement] -> UiElement
 stackPane children = UiElement {
   name = "stackPane " ++ (show children),
   size = paneSize,
   drawSelf = drawStackPane paneSize children,
-  onClick = onClickStackPane children
+  onClick = onClickStackPane paneSize children
 } where
   sizeX :: Float
   sizeY :: Float
@@ -21,15 +21,24 @@ stackPane children = UiElement {
   paneSize = (sizeX, sizeY)
 
 drawStackPane :: Point -> [UiElement] -> World -> IO Picture
-drawStackPane (width, height) children world = do 
+drawStackPane size children world = do 
   pics <- mapM renderCentered children
   return $ Pictures pics
   where
     renderCentered :: UiElement -> IO Picture
     renderCentered c = do
-      let (w, h) = size c
+      let (xoff, yoff) = centerChild size c
       p <- render world c
-      return $ Translate ((width - w) / 2) ((height - h) / 2) p
+      return $ Translate xoff yoff p
 
-onClickStackPane :: [UiElement] -> ClickHandler
-onClickStackPane children pos w = return w
+centerChild :: Point -> UiElement -> Point
+centerChild (width, height) c = let
+  (w, h) = size c in
+  ((width - w) / 2, (height - h) / 2)
+
+onClickStackPane :: Point -> [UiElement] -> ClickHandler
+onClickStackPane size children pos = let
+  matches = filter (\c -> isHit (centerChild size c) pos c) children in
+  case matches of
+    [] -> return
+    (c:_) -> onClick c pos

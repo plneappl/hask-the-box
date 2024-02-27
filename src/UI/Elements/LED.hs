@@ -10,12 +10,13 @@ import Main.World
 import Util.FourOf
 
 slottedLed :: Int -> UiElement
-slottedLed ledNum = UiElement {
-  name = "LED " ++ (show ledNum),
-  size = (ledSize, ledSize),
-  drawSelf = drawLed ledNum,
-  onClick = removeLed
-}
+slottedLed ledNum = UiElement 
+  { name = name
+  , size = (ledSize, ledSize)
+  , drawSelf = drawLed ledNum
+  , onClick = removeLed name
+  } where
+  name = "LED " ++ (show ledNum)
 
 ledSize :: Float
 ledSize = 40.0
@@ -30,6 +31,8 @@ drawLed ledNum world = return $ renderLed elemState where
       baseColor = toGloss color
       ledColor = if isOn then Color baseColor else Color $ dim $ dim baseColor
 
-removeLed :: ClickHandler
-removeLed _ = return
+removeLed :: String -> ClickHandler
+removeLed name _ w = do
+  print name
+  return w
 

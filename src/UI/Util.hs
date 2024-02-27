@@ -2,6 +2,7 @@ module UI.Util
   ( toGloss
   , scaleUnif
   , render
+  , isHit
   ) where
 
 import qualified Main.Color as C
@@ -22,4 +23,11 @@ render :: World -> UiElement -> IO G.Picture
 render w it = do
   let (sizeX, sizeY) = size it
   p <- (drawSelf it) w
-  return p -- $ G.Translate (sizeX / 2) (- sizeY / 2) p
+  return p
+
+isHit :: G.Point -> G.Point -> UiElement -> Bool
+isHit (offsetX, offsetY) (posX, posY) child = let
+  (sizeX, sizeY) = size child
+  maxX = offsetX + sizeX
+  maxY = offsetY + sizeY in
+  offsetX <= posX && posX < maxX && offsetY <= posY && posY < maxY

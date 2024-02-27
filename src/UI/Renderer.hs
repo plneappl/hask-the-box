@@ -11,32 +11,13 @@ import UI.UiElement
 import UI.Util(render, scaleUnif)
 import Debug.Trace
 
-renderWorld :: Point -> World -> IO Picture
-renderWorld screen w = renderRoot screen w $ 
-  vbox (0, 0) 15 
-    [ button "Shuffle1" ignoreClicks
-    , hbox (0, 0) 10 
-      [ slottedLed 0
-      , slottedLed 1
-      , slottedLed 2
-      , slottedLed 3
-      ]
-    , hbox (0, 0) 10 
-      [ slottedLed 0
-      , slottedLed 1
-      , slottedLed 2
-      , slottedLed 3
-      ]
-    , button "Shuffle2" ignoreClicks
-    ]
-
-renderRoot :: Point -> World -> UiElement -> IO Picture
-renderRoot (screenX, screenY) w it = do
-  let (sizeX, sizeY) = size it
-  p <- render w it
+renderWorld :: Point -> UiElement -> World -> IO Picture
+renderWorld (screenX, screenY) ui w = do
+  let (sizeX, sizeY) = size ui
+  p <- render w ui
   let anchorTopLeft = Translate (- screenX / 2) (screenY / 2 - sizeY) p
   return anchorTopLeft
-
+  
 -- for debugging
 renderWorld1 (screenX, screenY) _ = return $ Pictures
   [ Translate 0 0 $ scaleUnif 0.1 $ Text "0, 0"
@@ -52,13 +33,4 @@ renderWorld1 (screenX, screenY) _ = return $ Pictures
   , Translate 0 (-80) $ scaleUnif 0.1 $ Text "0, -80"
   , Translate 0 (-160) $ scaleUnif 0.1 $ Text "0, -160"
   , Translate 0 (-screenY / 2) $ scaleUnif 0.1 $ Text "0, -screenY"
-  ]
-renderWorld2 screen w = do
-  p <- renderRoot screen w $ button "Shuffle" ignoreClicks
-  return $ trace (show p) p
-renderWorld3 screen w = renderRoot screen w $ vbox (0, 0) 15 
-  [ button "Shuffle" ignoreClicks
-  , button "Shuffle" ignoreClicks
-  , button "Shuffle" ignoreClicks
-  , button "Shuffle" ignoreClicks
   ]

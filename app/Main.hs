@@ -5,8 +5,12 @@ import Main.World
 import Util.FourOf as F
 import qualified Main.Color as C
 import Graphics.Gloss(Display(InWindow), Color, white, Point)
-import Graphics.Gloss.Interface.IO.Game (Event, playIO)
+import Graphics.Gloss.Interface.IO.Game (Event(..), playIO, Key(..), MouseButton(..), KeyState(..))
 import UI.Renderer(renderWorld)
+import UI.UiElement
+import UI.Elements.Box
+import UI.Elements.LED
+import UI.Elements.Button
 
 initialState :: World
 initialState = World {
@@ -33,11 +37,40 @@ displayMode :: Display
 displayMode = InWindow "The Box" (screenWidth, screenHeight) (0, 0)
 
 eventHandler :: Event -> World -> IO World
-eventHandler _ it = return it
+eventHandler (EventKey (MouseButton LeftButton) Down _ (posx, posy)) w = do
+  let screenX = posx + (fromIntegral screenWidth) / 2
+  let screenY = - posy + (fromIntegral screenHeight) / 2
+  let (uiWidth, uiHeight) = size ui
+  if screenX < uiWidth && screenY < uiHeight then
+    onClick ui (screenX, screenY) w
+  else 
+    return w
+eventHandler _ w = return w
 
 onTick :: Float -> World -> IO World
 onTick _ it = return it
 
+printHandler :: String -> ClickHandler
+printHandler msg _ w = putStrLn msg >> return w
+
+ui :: UiElement
+ui = vbox (0, 0) 15 
+  [ button "Shuffle1" (printHandler "btn1 clicked")
+  , hbox (0, 0) 10 
+    [ slottedLed 3
+    , slottedLed 2
+    , slottedLed 1
+    , slottedLed 0
+    ]
+  , hbox (0, 0) 10 
+    [ slottedLed 0
+    , slottedLed 1
+    , slottedLed 2
+    , slottedLed 3
+    ]
+  , button "Shuffle2" (printHandler "btn2 clicked")
+  ]
+
 main :: IO ()
 main = do
-  playIO displayMode bgColor fps initialState (renderWorld screenSize) eventHandler onTick
+  playIO displayMode bgColor fps initialState (renderWorld screenSize ui) eventHandler onTick
