@@ -30,10 +30,12 @@ library
       Main.World
       UI.Elements.Box
       UI.Elements.Button
+      UI.Elements.FilledRectangle
       UI.Elements.Label
       UI.Elements.LED
       UI.Elements.Rectangle
       UI.Elements.StackPane
+      UI.Elements.Switch
       UI.Renderer
       UI.UiElement
       UI.UiState

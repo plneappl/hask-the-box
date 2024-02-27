@@ -4,4 +4,4 @@ module Main.ElementState
 
 import Main.Color
 
-data ElementState = ElementState Color Bool
+data ElementState = ElementState { color :: Color, isOn :: Bool }

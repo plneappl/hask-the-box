@@ -19,7 +19,7 @@ slottedLed ledNum = UiElement
   name = "LED " ++ (show ledNum)
 
 ledSize :: Float
-ledSize = 40.0
+ledSize = 40
 
 drawLed :: Int -> World -> IO Picture
 drawLed ledNum world = return $ renderLed elemState where

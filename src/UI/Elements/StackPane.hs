@@ -8,7 +8,7 @@ import UI.UiElement
 import UI.Util(render, isHit)
 
 stackPane :: [UiElement] -> UiElement
-stackPane children = UiElement {
+stackPane _children = UiElement {
   name = "stackPane " ++ (show children),
   size = paneSize,
   drawSelf = drawStackPane paneSize children,
@@ -19,6 +19,7 @@ stackPane children = UiElement {
   sizeX = maximum $ map fst $ map size children
   sizeY = maximum $ map snd $ map size children
   paneSize = (sizeX, sizeY)
+  children = reverse _children
 
 drawStackPane :: Point -> [UiElement] -> World -> IO Picture
 drawStackPane size children world = do 

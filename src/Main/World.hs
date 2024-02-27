@@ -5,6 +5,7 @@ module Main.World
 import Util.FourOf
 import Main.ElementState
 
-data World = World {
-  leds :: FourOf (Maybe ElementState)
-}
+data World = World 
+  { leds :: FourOf (Maybe ElementState)
+  , switches :: FourOf ElementState
+  }

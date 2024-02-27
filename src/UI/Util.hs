@@ -3,6 +3,7 @@ module UI.Util
   , scaleUnif
   , render
   , isHit
+  , listSet
   ) where
 
 import qualified Main.Color as C
@@ -31,3 +32,6 @@ isHit (offsetX, offsetY) (posX, posY) child = let
   maxX = offsetX + sizeX
   maxY = offsetY + sizeY in
   offsetX <= posX && posX < maxX && offsetY <= posY && posY < maxY
+
+listSet :: [a] -> Int -> a -> [a]
+listSet xs i x = take i xs ++ [x] ++ drop (i + 1) xs

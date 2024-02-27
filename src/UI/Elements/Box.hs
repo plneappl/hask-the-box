@@ -59,26 +59,14 @@ clickOnChildrenHorizontal :: Float -> [UiElement] -> ClickHandler
 clickOnChildrenHorizontal hseparator children pos@(x, y) w = do
   let offsets = offsetsHorizontal hseparator children
   let matches = filter (\(xoff, c) -> isHit (xoff, 0) pos c) $ zip offsets children
-  print "hbox click"
-  print offsets
-  print children
-  print pos
-  print matches
-  print "-------------"
   case matches of
     [] -> ignoreClicks pos w
-    ((xoff, c):_) -> onClick c pos w
+    ((xoff, c):_) -> onClick c (x - xoff, y) w
 
 clickOnChildrenVertical :: Float -> [UiElement] -> ClickHandler
 clickOnChildrenVertical vseparator children pos@(x, y) w = do
   let offsets = offsetsVertical vseparator children
   let matches = filter (\(yoff, c) -> isHit (0, yoff) pos c) $ zip offsets children
-  print "vbox click"
-  print offsets
-  print children
-  print pos
-  print matches
-  print "-------------"
   case matches of
     [] -> ignoreClicks pos w
     ((yoff, c):_) -> onClick c (x, y - yoff) w
