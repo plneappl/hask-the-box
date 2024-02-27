@@ -7,7 +7,6 @@ import UI.Util(toGloss)
 import UI.UiElement
 import Main.ElementState
 import Main.World
-import Util.FourOf
 
 slottedLed :: Int -> UiElement
 slottedLed ledNum = UiElement 
@@ -23,7 +22,7 @@ ledSize = 40
 
 drawLed :: Int -> World -> IO Picture
 drawLed ledNum world = return $ renderLed elemState where
-  elemState = (iter (leds $ world)) !! ledNum
+  elemState = (leds $ world) !! ledNum
   renderLed Nothing = Blank
   renderLed (Just (ElementState color isOn)) = ledColor circle
     where

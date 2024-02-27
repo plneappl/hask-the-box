@@ -1,8 +1,8 @@
 module Main (main) where
 
 import Main.ElementState
+import Main.Logic
 import Main.World
-import Util.FourOf as F
 import qualified Main.Color as C
 import Graphics.Gloss(Display(InWindow), Color, white, Point)
 import Graphics.Gloss.Interface.IO.Game (Event(..), playIO, Key(..), MouseButton(..), KeyState(..))
@@ -15,8 +15,8 @@ import UI.Elements.Switch
 
 initialState :: World
 initialState = World {
-  leds = fmap Just $ fmap (\c -> ElementState c False) $ FourOf C.Red C.Green C.Blue C.Yellow,
-  switches = fmap (\c -> ElementState c False) $ FourOf C.Red C.Green C.Blue C.Yellow
+  leds = fmap Just $ fmap (\c -> ElementState c False) [C.Red, C.Green, C.Blue, C.Yellow],
+  switches = fmap (\c -> ElementState c False) [C.Red, C.Green, C.Blue, C.Yellow]
 }
 
 screenWidth :: Int
@@ -39,7 +39,11 @@ displayMode :: Display
 displayMode = InWindow "The Box" (screenWidth, screenHeight) (0, 0)
 
 eventHandler :: Event -> World -> IO World
-eventHandler (EventKey (MouseButton LeftButton) Down _ (posx, posy)) w = do
+eventHandler (EventKey (MouseButton LeftButton) Down _ pos) w = handleClick pos w >>= simpleLogic
+eventHandler _ w = return w
+
+handleClick :: Point -> World -> IO World
+handleClick (posx, posy) w = do
   let screenX = posx + (fromIntegral screenWidth) / 2
   let screenY = - posy + (fromIntegral screenHeight) / 2
   let (uiWidth, uiHeight) = size ui
@@ -47,7 +51,6 @@ eventHandler (EventKey (MouseButton LeftButton) Down _ (posx, posy)) w = do
     onClick ui (screenX, screenY) w
   else 
     return w
-eventHandler _ w = return w
 
 onTick :: Float -> World -> IO World
 onTick _ it = return it
@@ -58,7 +61,7 @@ printHandler msg _ w = putStrLn msg >> return w
 ui :: UiElement
 ui = vbox (0, 0) 15 
   [ button "Shuffle1" (printHandler "btn1 clicked")
-  , hbox (0, 0) 10 
+  , hbox (20, 0) 50 
     [ slottedLed 0
     , slottedLed 1
     , slottedLed 2

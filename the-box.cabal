@@ -27,6 +27,7 @@ library
   exposed-modules:
       Main.Color
       Main.ElementState
+      Main.Logic
       Main.World
       UI.Elements.Box
       UI.Elements.Button
@@ -38,9 +39,7 @@ library
       UI.Elements.Switch
       UI.Renderer
       UI.UiElement
-      UI.UiState
       UI.Util
-      Util.FourOf
   other-modules:
       Paths_the_box
   autogen-modules:
