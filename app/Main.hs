@@ -14,10 +14,11 @@ import UI.Elements.Button
 import UI.Elements.Switch
 
 initialState :: World
-initialState = World {
-  leds = fmap Just $ fmap (\c -> ElementState c False) [C.Red, C.Green, C.Blue, C.Yellow],
-  switches = fmap (\c -> ElementState c False) [C.Red, C.Green, C.Blue, C.Yellow]
-}
+initialState = World 
+  { removedLeds = []
+  , leds = fmap Just $ fmap (\c -> ElementState c False) [C.Red, C.Green, C.Blue, C.Yellow]
+  , switches = fmap (\c -> ElementState c False) [C.Red, C.Green, C.Blue, C.Yellow]
+  }
 
 screenWidth :: Int
 screenHeight :: Int
@@ -61,6 +62,12 @@ printHandler msg _ w = putStrLn msg >> return w
 ui :: UiElement
 ui = vbox (0, 0) 15 
   [ button "Shuffle1" (printHandler "btn1 clicked")
+  , hbox (20, 0) 50 
+    [ removedLed 0
+    , removedLed 1
+    , removedLed 2
+    , removedLed 3
+    ]
   , hbox (20, 0) 50 
     [ slottedLed 0
     , slottedLed 1

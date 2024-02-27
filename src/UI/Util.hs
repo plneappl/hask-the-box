@@ -4,6 +4,8 @@ module UI.Util
   , render
   , isHit
   , listSet
+  , (!?)
+  , (?!?)
   ) where
 
 import qualified Main.Color as C
@@ -35,3 +37,11 @@ isHit (offsetX, offsetY) (posX, posY) child = let
 
 listSet :: [a] -> Int -> a -> [a]
 listSet xs i x = take i xs ++ [x] ++ drop (i + 1) xs
+
+(!?) :: [a] -> Int -> Maybe a
+as !? idx | length as > idx = Just $ as !! idx
+          | otherwise = Nothing
+
+(?!?) :: [Maybe a] -> Int -> Maybe a
+as ?!? idx | length as > idx = as !! idx
+          | otherwise = Nothing
