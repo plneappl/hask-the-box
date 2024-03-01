@@ -50,6 +50,7 @@ library
   build-depends:
       base >=4.7 && <5
     , gloss >=1.13
+    , random >=1.2
   default-language: Haskell2010
 
 executable the-box-exe
@@ -64,6 +65,7 @@ executable the-box-exe
   build-depends:
       base >=4.7 && <5
     , gloss >=1.13
+    , random >=1.2
     , the-box
   default-language: Haskell2010
 
@@ -79,5 +81,6 @@ test-suite the-box-test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-unused-matches -Wno-unused-top-binds -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , random >=1.2
     , the-box
   default-language: Haskell2010

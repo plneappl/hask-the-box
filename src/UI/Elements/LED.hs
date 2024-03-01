@@ -1,6 +1,8 @@
 module UI.Elements.LED
   ( slottedLed
   , removedLed
+  , removeLed
+  , setLed
   ) where
 
 import Graphics.Gloss (Picture (..), dim)
@@ -15,7 +17,7 @@ slottedLed ledNum =
     { name = name
     , size = (ledSize, ledSize)
     , drawSelf = drawLed ledNum
-    , onClick = removeLed ledNum
+    , onClick = removeLed' ledNum
     }
  where
   name = "LED " ++ show ledNum
@@ -26,7 +28,7 @@ removedLed ledNum =
     { name = name
     , size = (ledSize, ledSize)
     , drawSelf = drawRemovedLed ledNum
-    , onClick = setLed ledNum
+    , onClick = setLed' ledNum
     }
  where
   name = "LED spare " ++ show ledNum
@@ -56,8 +58,11 @@ drawRemovedLed ledNum world = return $ renderLed elemState
     baseColor = toGloss color
     ledColor = Color $ dim $ dim baseColor
 
-removeLed :: Int -> ClickHandler
-removeLed ledNum _ world = do
+removeLed' :: Int -> ClickHandler
+removeLed' ledNum _ world = removeLed ledNum world
+
+removeLed :: Int -> World -> IO World
+removeLed ledNum world = do
   let elemState = leds world !! ledNum
   let newStates = listSet (leds world) ledNum Nothing
   let oldRemoved = removedLeds world
@@ -70,8 +75,11 @@ removeLed ledNum _ world = do
       , leds = newStates
       }
 
-setLed :: Int -> ClickHandler
-setLed ledNum _ world = do
+setLed' :: Int -> ClickHandler
+setLed' ledNum _ world = setLed ledNum world
+
+setLed :: Int -> World -> IO World
+setLed ledNum world = do
   let oldRemoved = removedLeds world
   let ledToPut = oldRemoved !? ledNum
   case ledToPut of
