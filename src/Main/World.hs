@@ -4,6 +4,7 @@ module Main.World
   , createAnimation
   , runAnimation
   , concatAnimations
+  , LogicState (..)
   ) where
 
 import Main.Color
@@ -17,7 +18,10 @@ data World = World
   , animation :: Maybe Animation
   , timeElapsed :: Float
   , randomSlots :: [Int]
+  , logicState :: LogicState
   }
+
+data LogicState = LogicState
 
 data Animation = Animation
   { nextAction :: World -> IO World

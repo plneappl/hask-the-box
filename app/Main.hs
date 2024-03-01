@@ -30,6 +30,7 @@ initialWorld r =
     , animation = Nothing
     , timeElapsed = 0
     , randomSlots = initialRandomSlots r
+    , logicState = LogicState
     }
 
 screenWidth :: Int
