@@ -1,6 +1,7 @@
-module Main.Logic 
+module Main.Logic
   ( simpleLogic
-  ) where
+  )
+where
 
 import Main.ElementState
 import Main.World
@@ -9,7 +10,8 @@ import Main.World
 simpleLogic :: World -> IO World
 simpleLogic w = do
   let areOn = map isOn $ switches w
-  let newLeds = map (uncurry setState) $ zip (leds w) areOn
-  return w { leds = newLeds } where
+  let newLeds = zipWith setState (leds w) areOn
+  return w{leds = newLeds}
+ where
   setState Nothing _ = Nothing
   setState (Just (ElementState col _)) newIsOn = Just $ ElementState col newIsOn

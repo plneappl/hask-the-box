@@ -1,8 +1,11 @@
 module Main.Color
-  ( Color(..),
-  ) 
+  ( Color (..)
+  )
 where
 
-data Color = 
-  Red | Green | Blue | Yellow 
+data Color
+  = Red
+  | Green
+  | Blue
+  | Yellow
   deriving (Eq, Ord, Show)
