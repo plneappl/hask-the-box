@@ -1,8 +1,11 @@
 module UI.Elements.Switch
   ( switch
   , removedSwitch
+  , removeSwitch
+  , setSwitchColor
   ) where
 
+import Data.Maybe (isNothing)
 import Graphics.Gloss (Point, dim, light, white)
 import Main.ElementState
 import Main.World
@@ -13,7 +16,6 @@ import UI.Elements.Rectangle
 import UI.Elements.StackPane
 import UI.UiElement
 import UI.Util (listSet, replaceFirstNothing, toGloss, (!?))
-import Data.Maybe (isNothing)
 
 switch :: Int -> UiElement
 switch switchNum =
@@ -123,7 +125,7 @@ setSwitchColor switchNum world = do
     Nothing -> return world
     Just col -> do
       let oldStates = switches world
-      let posToPut = fst $ head $ filter (\ (_, x) -> isNothing (switchColor x)) $ zip [0..] oldStates
+      let posToPut = fst $ head $ filter (\(_, x) -> isNothing (switchColor x)) $ zip [0 ..] oldStates
       let oldState = oldStates !! posToPut
       let newRemoved = take switchNum oldRemoved ++ drop (switchNum + 1) oldRemoved
       let newStates = listSet oldStates posToPut (oldState{switchColor = Just col})

@@ -90,14 +90,41 @@ setAllLeds =
     , setRandomLed
     ]
 
+removeAllSwitches :: Maybe Animation
+removeAllSwitches =
+  createAnimation
+    [ removeSwitch 0
+    , removeSwitch 1
+    , removeSwitch 2
+    , removeSwitch 3
+    ]
+
+setAllSwitches :: Maybe Animation
+setAllSwitches =
+  createAnimation
+    [ setRandomSwitch
+    , setRandomSwitch
+    , setRandomSwitch
+    , setRandomSwitch
+    ]
+
 shuffleLeds :: Maybe Animation
 shuffleLeds = concatAnimations removeAllLeds setAllLeds
+
+shuffleSwitches :: Maybe Animation
+shuffleSwitches = concatAnimations removeAllSwitches setAllSwitches
 
 setRandomLed :: World -> IO World
 setRandomLed w = do
   let (s, w1) = getRandomSlot w
   let remainingLeds = length $ removedLeds w1
   setLed (s `mod` remainingLeds) w1
+
+setRandomSwitch :: World -> IO World
+setRandomSwitch w = do
+  let (s, w1) = getRandomSlot w
+  let remainingSwitches = length $ removedSwitches w1
+  setSwitchColor (s `mod` remainingSwitches) w1
 
 setAnimation :: Maybe Animation -> ClickHandler
 setAnimation a _ w = return $ w{animation = a}
@@ -143,7 +170,7 @@ ui =
         , removedSwitch 2
         , removedSwitch 3
         ]
-    , button "Shuffle Switches" (printHandler "btn2 clicked")
+    , button "Shuffle Switches" (setAnimation shuffleSwitches)
     ]
 
 main :: IO ()
