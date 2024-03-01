@@ -20,7 +20,7 @@ data UiElement = UiElement
   }
 
 instance Show UiElement where
-  show it = show (name it) ++ " | " ++ show (size it)
+  show it = "{name=" ++ name it ++ ", size=" ++ show (size it) ++ "}"
 
 ignoreClicks :: ClickHandler
 ignoreClicks _ = return

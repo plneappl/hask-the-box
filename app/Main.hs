@@ -24,8 +24,9 @@ initialWorld :: StdGen -> World
 initialWorld r =
   World
     { removedLeds = []
-    , leds = Just <$> fmap (\c -> ElementState c False) [C.Red, C.Green, C.Blue, C.Yellow]
-    , switches = fmap (\c -> ElementState c False) [C.Red, C.Green, C.Blue, C.Yellow]
+    , leds = Just <$> fmap (\c -> LedState c False) [C.Red, C.Green, C.Blue, C.Yellow]
+    , switches = fmap (\c -> SwitchState c False) $ map Just $ [C.Red, C.Green, C.Blue, C.Yellow]
+    , removedSwitches = []
     , animation = Nothing
     , timeElapsed = 0
     , randomSlots = initialRandomSlots r
@@ -66,7 +67,7 @@ handleClick (posx, posy) w = do
     else return w
 
 onTick :: Float -> World -> IO World
-onTick time w = runAnimation time w
+onTick time w = runAnimation time w >>= simpleLogic
 
 printHandler :: String -> ClickHandler
 printHandler msg _ w = putStrLn msg >> return w
@@ -95,7 +96,8 @@ shuffleLeds = concatAnimations removeAllLeds setAllLeds
 setRandomLed :: World -> IO World
 setRandomLed w = do
   let (s, w1) = getRandomSlot w
-  setLed s w1
+  let remainingLeds = length $ removedLeds w1
+  setLed (s `mod` remainingLeds) w1
 
 setAnimation :: Maybe Animation -> ClickHandler
 setAnimation a _ w = return $ w{animation = a}
@@ -108,7 +110,7 @@ ui =
   vbox
     (0, 0)
     15
-    [ button "Shuffle1" (setAnimation shuffleLeds)
+    [ button "Shuffle LEDs" (setAnimation shuffleLeds)
     , hbox
         (20, 0)
         50
@@ -133,7 +135,15 @@ ui =
         , switch 2
         , switch 3
         ]
-    , button "Shuffle2" (printHandler "btn2 clicked")
+    , hbox
+        (20, 0)
+        50
+        [ removedSwitch 0
+        , removedSwitch 1
+        , removedSwitch 2
+        , removedSwitch 3
+        ]
+    , button "Shuffle Switches" (printHandler "btn2 clicked")
     ]
 
 main :: IO ()

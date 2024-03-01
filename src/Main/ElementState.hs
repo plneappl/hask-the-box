@@ -1,8 +1,10 @@
 module Main.ElementState
-  ( ElementState (..)
+  ( LedState (..)
+    , SwitchState(..)
   )
 where
 
 import Main.Color
 
-data ElementState = ElementState {color :: Color, isOn :: Bool}
+data LedState = LedState {ledColor :: Color, ledOn :: Bool}
+data SwitchState = SwitchState {switchColor :: Maybe Color, switchOn :: Bool}

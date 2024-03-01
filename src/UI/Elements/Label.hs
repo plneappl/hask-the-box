@@ -10,7 +10,7 @@ import UI.Util (scaleUnif)
 label :: Float -> String -> UiElement
 label height text =
   UiElement
-    { name = "label: " ++ text
+    { name = "label (" ++ text ++ ")"
     , size = (width, height)
     , drawSelf = drawText scale text
     , onClick = \_ -> return
@@ -21,7 +21,7 @@ label height text =
   width = scale * baseWidth * fromIntegral (length text)
 
 baseWidth :: Float
-baseWidth = 60
+baseWidth = 65
 
 baseHeight :: Float
 baseHeight = 110

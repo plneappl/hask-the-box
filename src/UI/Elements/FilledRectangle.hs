@@ -9,7 +9,7 @@ import UI.UiElement
 filledRectangle :: Point -> (World -> Color) -> UiElement
 filledRectangle s computeCol =
   UiElement
-    { name = "filled rect " ++ (show s)
+    { name = "filled rectangle"
     , size = s
     , drawSelf = renderBox s computeCol
     , onClick = ignoreClicks

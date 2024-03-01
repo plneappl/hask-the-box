@@ -11,8 +11,9 @@ import Main.ElementState
 
 data World = World
   { removedLeds :: [Color]
-  , leds :: [Maybe ElementState]
-  , switches :: [ElementState]
+  , leds :: [Maybe LedState]
+  , switches :: [SwitchState]
+  , removedSwitches :: [Color]
   , animation :: Maybe Animation
   , timeElapsed :: Float
   , randomSlots :: [Int]

@@ -4,6 +4,7 @@ module UI.Util
   , render
   , isHit
   , listSet
+  , replaceFirstNothing
   , (!?)
   , (?!?)
   ) where
@@ -46,3 +47,8 @@ as !? idx
 as ?!? idx
   | length as > idx = as !! idx
   | otherwise = Nothing
+
+replaceFirstNothing :: [Maybe a] -> a -> [Maybe a]
+replaceFirstNothing (Nothing : xs) a = Just a : xs
+replaceFirstNothing (x : xs) a = x : replaceFirstNothing xs a
+replaceFirstNothing [] _ = []

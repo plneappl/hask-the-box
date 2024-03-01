@@ -9,7 +9,7 @@ import Graphics.Gloss (Picture (..), dim)
 import Main.ElementState
 import Main.World
 import UI.UiElement
-import UI.Util (listSet, toGloss, (!?))
+import UI.Util (listSet, replaceFirstNothing, toGloss, (!?))
 
 slottedLed :: Int -> UiElement
 slottedLed ledNum =
@@ -39,22 +39,24 @@ ledSize = 40
 drawLed :: Int -> World -> IO Picture
 drawLed ledNum world = return $ renderLed elemState
  where
+  offset = Translate (ledSize / 2) (ledSize / 2)
   elemState = leds world !! ledNum
-  renderLed Nothing = Blank
-  renderLed (Just (ElementState color isOn)) = ledColor circle
+  renderLed Nothing = offset $ Circle (ledSize / 2)
+  renderLed (Just (LedState color isOn)) = ledColor circle
    where
-    circle = Translate (ledSize / 2) (ledSize / 2) $ ThickCircle (ledSize / 4) (ledSize / 2)
+    circle = offset $ ThickCircle (ledSize / 4) (ledSize / 2)
     baseColor = toGloss color
     ledColor = if isOn then Color baseColor else Color $ dim $ dim baseColor
 
 drawRemovedLed :: Int -> World -> IO Picture
 drawRemovedLed ledNum world = return $ renderLed elemState
  where
+  offset = Translate (ledSize / 2) (ledSize / 2)
   elemState = (removedLeds $ world) !? ledNum
-  renderLed Nothing = Blank
+  renderLed Nothing = offset $ Circle (ledSize / 2)
   renderLed (Just color) = ledColor circle
    where
-    circle = Translate (ledSize / 2) (ledSize / 2) $ ThickCircle (ledSize / 4) (ledSize / 2)
+    circle = offset $ ThickCircle (ledSize / 4) (ledSize / 2)
     baseColor = toGloss color
     ledColor = Color $ dim $ dim baseColor
 
@@ -67,7 +69,7 @@ removeLed ledNum world = do
   let newStates = listSet (leds world) ledNum Nothing
   let oldRemoved = removedLeds world
   let newRemoved = case elemState of
-        Just x -> oldRemoved ++ [color x]
+        Just x -> oldRemoved ++ [ledColor x]
         Nothing -> oldRemoved
   return
     world
@@ -84,16 +86,11 @@ setLed ledNum world = do
   let ledToPut = oldRemoved !? ledNum
   case ledToPut of
     Nothing -> return world
-    Just ledColor -> do
+    Just col -> do
       let newRemoved = take ledNum oldRemoved ++ drop (ledNum + 1) oldRemoved
-      let newStates = replaceFirstNothing (leds world) (ElementState ledColor False)
+      let newStates = replaceFirstNothing (leds world) (LedState col False)
       return
         world
           { removedLeds = newRemoved
           , leds = newStates
           }
-
-replaceFirstNothing :: [Maybe a] -> a -> [Maybe a]
-replaceFirstNothing (Nothing : xs) a = Just a : xs
-replaceFirstNothing (x : xs) a = x : replaceFirstNothing xs a
-replaceFirstNothing [] _ = []

@@ -9,7 +9,7 @@ import UI.UiElement
 rectangle :: Point -> UiElement
 rectangle s =
   UiElement
-    { name = "rect " ++ show s
+    { name = "rectangle"
     , size = s
     , drawSelf = renderBox s
     , onClick = ignoreClicks
