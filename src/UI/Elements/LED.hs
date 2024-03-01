@@ -9,7 +9,7 @@ import Graphics.Gloss (Picture (..), dim)
 import Main.ElementState
 import Main.World
 import UI.UiElement
-import UI.Util (listSet, replaceFirstNothing, toGloss, (!?))
+import UI.Util (darken, listSet, replaceFirstNothing, toGloss, (!?))
 
 slottedLed :: Int -> UiElement
 slottedLed ledNum =
@@ -58,7 +58,7 @@ drawRemovedLed ledNum world = return $ renderLed elemState
    where
     circle = offset $ ThickCircle (ledSize / 4) (ledSize / 2)
     baseColor = toGloss color
-    ledColor = Color $ dim $ dim baseColor
+    ledColor = Color $ darken baseColor
 
 removeLed' :: Int -> ClickHandler
 removeLed' ledNum _ world = removeLed ledNum world

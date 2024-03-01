@@ -5,6 +5,7 @@ module UI.Util
   , isHit
   , listSet
   , replaceFirstNothing
+  , darken
   , (!?)
   , (?!?)
   ) where
@@ -14,11 +15,26 @@ import qualified Main.Color as C
 import Main.World
 import UI.UiElement
 
+red :: G.Color
+red = G.makeColor 0.8 0.2 0.2 1
+
+green :: G.Color
+green = G.makeColor 0.2 0.8 0.2 1
+
+yellow :: G.Color
+yellow = G.makeColor 0.88 0.75 0.15 1
+
+blue :: G.Color
+blue = G.makeColor 0.3 0.3 1 1
+
 toGloss :: C.Color -> G.Color
-toGloss C.Red = G.red
-toGloss C.Green = G.green
-toGloss C.Blue = G.blue
-toGloss C.Yellow = G.yellow
+toGloss C.Red = red
+toGloss C.Green = green
+toGloss C.Blue = blue
+toGloss C.Yellow = yellow
+
+darken :: G.Color -> G.Color
+darken = G.dim . G.dim . G.dim
 
 scaleUnif :: Float -> G.Picture -> G.Picture
 scaleUnif s = G.Scale s s

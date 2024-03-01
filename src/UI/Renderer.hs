@@ -1,5 +1,6 @@
 module UI.Renderer
   ( renderWorld
+  , translateClick
   ) where
 
 import Graphics.Gloss
@@ -12,23 +13,14 @@ renderWorld (screenX, screenY) ui w = do
   let (sizeX, sizeY) = size ui
   p <- render w ui
   let anchorTopLeft = Translate (-screenX / 2) (screenY / 2 - sizeY) p
-  return anchorTopLeft
+  let centered = Translate (-sizeX / 2) (-sizeY / 2) p
+  return centered
 
--- for debugging
-renderWorld1 (screenX, screenY) _ =
-  return $
-    Pictures
-      [ Translate 0 0 $ scaleUnif 0.1 $ Text "0, 0"
-      , Translate 80 0 $ scaleUnif 0.1 $ Text "80, 0"
-      , Translate 160 0 $ scaleUnif 0.1 $ Text "160, 0"
-      , Translate (screenX / 2) 0 $ scaleUnif 0.1 $ Text "screenX, 0"
-      , Translate (-80) 0 $ scaleUnif 0.1 $ Text "-80, 0"
-      , Translate (-160) 0 $ scaleUnif 0.1 $ Text "-160, 0"
-      , Translate (-screenX / 2) 0 $ scaleUnif 0.1 $ Text "-screenX, 0"
-      , Translate 0 80 $ scaleUnif 0.1 $ Text "0, 80"
-      , Translate 0 160 $ scaleUnif 0.1 $ Text "0, 160"
-      , Translate 0 (screenY / 2) $ scaleUnif 0.1 $ Text "0, screenY"
-      , Translate 0 (-80) $ scaleUnif 0.1 $ Text "0, -80"
-      , Translate 0 (-160) $ scaleUnif 0.1 $ Text "0, -160"
-      , Translate 0 (-screenY / 2) $ scaleUnif 0.1 $ Text "0, -screenY"
-      ]
+translateClick :: Point -> Point -> Point -> Point
+translateClick = translateCentered
+
+translateTopLeft :: Point -> Point -> Point -> Point
+translateTopLeft (screenX, screenY) _ (x, y) = (x + screenX / 2, -y + screenY / 2)
+
+translateCentered :: Point -> Point -> Point -> Point
+translateCentered _ (uiX, uiY) (x, y) = (x + uiX/2, -y + uiY/2)

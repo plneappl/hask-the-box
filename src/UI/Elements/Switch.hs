@@ -2,6 +2,7 @@ module UI.Elements.Switch
   ( switch
   , removedSwitch
   , removeSwitch
+  , setSwitchOn
   , setSwitchColor
   ) where
 
@@ -15,7 +16,7 @@ import UI.Elements.Label
 import UI.Elements.Rectangle
 import UI.Elements.StackPane
 import UI.UiElement
-import UI.Util (listSet, replaceFirstNothing, toGloss, (!?))
+import UI.Util (darken, listSet, replaceFirstNothing, toGloss, (!?))
 
 switch :: Int -> UiElement
 switch switchNum =
@@ -25,8 +26,8 @@ switch switchNum =
     [ hbox
         (0, 0)
         0
-        [ btnOn{onClick = setSwitchOn True switchNum}
-        , btnOff{onClick = setSwitchOn False switchNum}
+        [ btnOn{onClick = setSwitchOn' True switchNum}
+        , btnOff{onClick = setSwitchOn' False switchNum}
         ]
     , btnRemove{onClick = removeSwitch' switchNum}
     ]
@@ -58,7 +59,7 @@ switch switchNum =
         Just c -> light $ light $ toGloss $ c
         Nothing -> dim white
      in
-      if switchOn state then glossCol else dim $ dim glossCol
+      if switchOn state then glossCol else darken glossCol
 
 removedSwitch :: Int -> UiElement
 removedSwitch switchNum =
@@ -73,7 +74,7 @@ removedSwitch switchNum =
     let
       states = removedSwitches w
      in
-      if length states > switchNum then dim $ dim $ light $ light $ toGloss $ states !! switchNum else white
+      if length states > switchNum then darken $ light $ light $ toGloss $ states !! switchNum else white
 
 switchHalfWidth :: Float
 switchHalfWidth = 40
@@ -88,8 +89,11 @@ removeSwitchHeight = 20
 removeSwitchSize :: Point
 removeSwitchSize = (removeSwitchWidth, removeSwitchHeight)
 
-setSwitchOn :: Bool -> Int -> ClickHandler
-setSwitchOn newIsOn switchNum _ w = do
+setSwitchOn' :: Bool -> Int -> ClickHandler
+setSwitchOn' newIsOn switchNum _ w = setSwitchOn newIsOn switchNum w
+
+setSwitchOn :: Bool -> Int -> World -> IO World
+setSwitchOn newIsOn switchNum w = do
   let states = switches w
   let state = states !! switchNum
   let newState = state{switchOn = newIsOn}

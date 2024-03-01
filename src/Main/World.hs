@@ -5,6 +5,7 @@ module Main.World
   , runAnimation
   , concatAnimations
   , LogicState (..)
+  , resetLogicState
   ) where
 
 import Main.Color
@@ -21,7 +22,10 @@ data World = World
   , logicState :: LogicState
   }
 
-data LogicState = LogicState
+resetLogicState :: LogicState
+resetLogicState = LogicState 
+
+data LogicState = LogicState deriving (Eq, Show)
 
 data Animation = Animation
   { nextAction :: World -> IO World

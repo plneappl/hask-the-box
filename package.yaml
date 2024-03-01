@@ -41,6 +41,7 @@ library:
   source-dirs: src
   dependencies: 
     - gloss >= 1.13
+    - mtl >= 2.3
 
 executables:
   the-box-exe:
