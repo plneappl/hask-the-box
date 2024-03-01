@@ -1,14 +1,17 @@
 module Main.Logic
-  ( simpleLogic
+  ( theLogic
   )
 where
 
 import Main.ElementState
 import Main.World
 
+theLogic :: Either Float () -> World -> IO World
+theLogic = simpleLogic
+
 -- turn on LEDs in a 1-1 correlation
-simpleLogic :: World -> IO World
-simpleLogic w = do
+simpleLogic :: Either Float () -> World -> IO World
+simpleLogic _ w = do
   let areOn = map switchOn $ switches w
   let newLeds = zipWith setState (leds w) areOn
   return w{leds = newLeds}

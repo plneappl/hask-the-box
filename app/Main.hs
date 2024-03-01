@@ -56,7 +56,7 @@ displayMode = InWindow "The Box" (screenWidth, screenHeight) (0, 0)
 eventHandler :: Event -> World -> IO World
 eventHandler (EventKey (MouseButton LeftButton) Down _ pos) w =
   case animation w of
-    Nothing -> handleClick pos w >>= simpleLogic (Right ())
+    Nothing -> handleClick pos w >>= theLogic (Right ())
     Just _ -> return w
 eventHandler _ w = return w
 
@@ -69,7 +69,7 @@ handleClick pos w = do
     else return w
 
 onTick :: Float -> World -> IO World
-onTick time w = runAnimation time w >>= simpleLogic (Left time)
+onTick time w = runAnimation time w >>= theLogic (Left time)
 
 printHandler :: String -> ClickHandler
 printHandler msg _ w = putStrLn msg >> return w
