@@ -22,6 +22,7 @@ initialState =
     { removedLeds = []
     , leds = Just <$> fmap (\c -> ElementState c False) [C.Red, C.Green, C.Blue, C.Yellow]
     , switches = fmap (\c -> ElementState c False) [C.Red, C.Green, C.Blue, C.Yellow]
+    , animation = Nothing
     }
 
 screenWidth :: Int

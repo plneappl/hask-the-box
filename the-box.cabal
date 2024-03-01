@@ -25,7 +25,6 @@ source-repository head
 
 library
   exposed-modules:
-      Main.Animation
       Main.Color
       Main.ElementState
       Main.Logic
