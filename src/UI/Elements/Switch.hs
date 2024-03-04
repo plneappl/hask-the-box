@@ -16,7 +16,7 @@ import UI.Elements.Label
 import UI.Elements.Rectangle
 import UI.Elements.StackPane
 import UI.UiElement
-import UI.Util (darken, listSet, replaceFirstNothing, toGloss, (!?))
+import UI.Util (darken, lighten, listSet, toGloss, (!?))
 
 switch :: Int -> UiElement
 switch switchNum =
@@ -59,7 +59,7 @@ switch switchNum =
         Just c -> light $ light $ toGloss $ c
         Nothing -> dim white
      in
-      if switchOn state then glossCol else darken glossCol
+      if switchOn state then lighten glossCol else darken glossCol
 
 removedSwitch :: Int -> UiElement
 removedSwitch switchNum =

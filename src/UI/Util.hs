@@ -6,6 +6,7 @@ module UI.Util
   , listSet
   , replaceFirstNothing
   , darken
+  , lighten
   , (!?)
   , (?!?)
   ) where
@@ -35,6 +36,9 @@ toGloss C.Yellow = yellow
 
 darken :: G.Color -> G.Color
 darken = G.dim . G.dim . G.dim
+
+lighten :: G.Color -> G.Color
+lighten = G.light
 
 scaleUnif :: Float -> G.Picture -> G.Picture
 scaleUnif s = G.Scale s s
